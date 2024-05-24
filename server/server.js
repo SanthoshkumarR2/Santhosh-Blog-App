@@ -17,6 +17,9 @@ app.use("/api/blogs", blogRouter);
 app.use("/api", (req, res, next) => {
   res.send("hello");
 });
+app.get("/",(req, res) =>{
+  res.send("Welcome to Blog App")
+})
 
 //define port
 
