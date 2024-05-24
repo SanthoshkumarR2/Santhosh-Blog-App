@@ -1,4 +1,4 @@
 const config = {
-    BASE_URL: "http://localhost:5002",
+    BASE_URL: "https://santhosh-blog-app.vercel.app",
   };
   export default config;
