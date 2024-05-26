@@ -1,6 +1,6 @@
 import './App.css';
-import { Route, Routes } from "react-router-dom";
-import Header from './components/Header'; // Corrected import statement
+import { Route, Switch } from "react-router-dom";
+import Header from './components/Header';
 import React from 'react';
 import Login from './components/Login';
 import Signup from './components/Signup';
@@ -8,6 +8,7 @@ import Blogs from './components/Blogs';
 import UserBlogs from './components/UserBlogs';
 import AddBlogs from './components/AddBlogs';
 import BlogDetail from './components/BlogDetail';
+// import UpdateBlog from './components/UpdateBlog';
 
 function App() {
   return (
@@ -16,14 +17,15 @@ function App() {
         <Header/>
       </header>
       <main>
-        <Routes>
-          <Route path="/login" element={<Login/>}></Route>
-          <Route path="/signup" element={<Signup/>}></Route>
-          <Route path="/blogs" element={<Blogs/>}></Route>
-          <Route path="/myBlogs" element={<UserBlogs/>}></Route>
-          <Route path="/myBlogs/:id" element={<BlogDetail/>}></Route>
-          <Route path="/blogs/add" element={<AddBlogs />} />
-        </Routes>
+        <Switch>
+          <Route path="/login" component={Login}></Route>
+          <Route path="/signup" component={Signup}></Route>
+          <Route path="/blogs" component={Blogs}></Route>
+          <Route path="/myBlogs" component={UserBlogs}></Route>
+          <Route path="/myBlog/:id" component={BlogDetail}></Route>
+          {/* <Route path="/editBlog/:id" component={UpdateBlog}></Route> */}
+          <Route path="/add" component={AddBlogs} />
+        </Switch>
       </main>
     </React.Fragment>
   );

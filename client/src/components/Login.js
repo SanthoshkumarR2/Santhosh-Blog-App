@@ -3,11 +3,11 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { authActions } from "../store";
-import { useNavigate } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import config from "../config";
 
 const Login = () => {
-  const navigate = useNavigate();
+  const history = useHistory(); // Use useHistory instead of navigate
   const dispatch = useDispatch();
   const [inputs, setInputs] = useState({
     email: "",
@@ -42,7 +42,7 @@ const Login = () => {
       if (data) {
         localStorage.setItem("userId", data.user._id);
         dispatch(authActions.login());
-        navigate("/blogs");
+        history.push("/blogs"); // Use history.push instead of navigate
       }
     } catch (error) {
       setError(error.message); // Set error message

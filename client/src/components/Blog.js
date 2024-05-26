@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
   Avatar,
   Box,
@@ -8,29 +9,26 @@ import {
   IconButton,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import { useNavigate } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import axios from "axios";
-import { useStyles } from "./utils";
 import config from "../config";
 
-const Blogs = ({ title, desc, img, user, isUser, id }) => {
-  const classes = useStyles();
-  const navigate = useNavigate();
+const Blogs = ({ title, desc, img, user, isUser, id}) => {
+  const history = useHistory();
   const [isDeleted, setIsDeleted] = useState(false);
   const [error, setError] = useState("");
 
   const handleEdit = () => {
-    navigate(`/myBlogs/${id}`);
+    history.push(`/myBlog/${id}`);  //change
   };
 
   const handleDelete = async () => {
     try {
       await axios.delete(`${config.BASE_URL}/api/blogs/${id}`);
       setIsDeleted(true);
-      navigate("/blogs");
+      history.push("/blogs");
     } catch (err) {
       setError("Failed to delete the blog");
       console.error("Error deleting blog:", err);
@@ -88,3 +86,6 @@ const Blogs = ({ title, desc, img, user, isUser, id }) => {
 };
 
 export default Blogs;
+
+
+

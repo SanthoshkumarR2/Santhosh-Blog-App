@@ -3,11 +3,11 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { authActions } from "../store";
-import { useNavigate } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import config from "../config";
 
 const Signup = () => {
-  const navigate = useNavigate();
+  const history = useHistory(); // Use useHistory instead of useNavigate
   const dispatch = useDispatch();
   const [inputs, setInputs] = useState({
     name: "",
@@ -42,7 +42,7 @@ const Signup = () => {
       if (data) {
         localStorage.setItem("userId", data.user._id);
         dispatch(authActions.login());
-        navigate("/login");
+        history.push("/login"); // Use history.push instead of navigate
       }
     } catch (error) {
       console.error("Error during signup:", error);
@@ -99,7 +99,7 @@ const Signup = () => {
             Submit
           </Button>
           <Button
-            onClick={() => navigate("/login")}
+            onClick={() => history.push("/login")} // Use history.push instead of navigate
             sx={{ borderRadius: 3, marginTop: 3 }}
           >
             Already have an account? Login

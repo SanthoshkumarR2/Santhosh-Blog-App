@@ -1,14 +1,14 @@
-import { Button, InputLabel, TextField, Typography } from "@mui/material";
+import { Button, InputLabel, TextField } from "@mui/material";
 import { Box } from "@mui/system";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import config from "../config";
 
 const labelStyles = { mb: 1, mt: 2, fontSize: "24px", fontWeight: "bold" };
 
 const BlogDetail = () => {
-  const navigate = useNavigate();
+  const history = useHistory();
   const { id } = useParams();
   const [blog, setBlog] = useState(null);
   const [inputs, setInputs] = useState({ title: "", desc: "" });
@@ -21,31 +21,30 @@ const BlogDetail = () => {
     }));
   };
 
-  const fetchDetails = async () => {
-    try {
-      const res = await axios.get(`${config.BASE_URL}/api/blogs/${id}`);
-      const data = await res.data;
-      setBlog(data.blog);
-      setInputs({
-        title: data.blog.title || "",
-        desc: data.blog.desc || "",
-      });
-    } catch (err) {
-      console.error("Error fetching blog details:", err);
-      setError("Error fetching blog details");
-    }
-  };
-
   useEffect(() => {
-    // eslint-disable-next-line
-    fetchDetails();
-  }, [id]);
+    const fetchDetails = async () => {
+      try {
+        const res = await axios.get(`${config.BASE_URL}/api/blogs/${id}`);
+        const data = await res.data;
+        setBlog(data.blog);
+        setInputs({
+          title: data.blog.title || "",
+          desc: data.blog.desc || "",   //change
+        });
+      } catch (err) {
+        console.error("Error fetching blog details:", err);
+        setError("Error fetching blog details");
+      }
+    };
+
+    fetchDetails(); // Call fetchDetails inside useEffect
+  }, [id]); // Include id in the dependency array
 
   const sendRequest = async () => {
     try {
       const res = await axios.put(`${config.BASE_URL}/api/blogs/update/${id}`, {
         title: inputs.title,
-        desc: inputs.desc,
+        desc: inputs.desc,  //change
       });
       return res.data;
     } catch (err) {
@@ -58,7 +57,7 @@ const BlogDetail = () => {
     e.preventDefault();
     const data = await sendRequest();
     if (data) {
-      navigate("/myBlogs/");
+      history.push("/myBlogs/");
     }
   };
 
@@ -82,29 +81,20 @@ const BlogDetail = () => {
             flexDirection="column"
             width="80%"
           >
-            <Typography
-              fontWeight="bold"
-              padding={3}
-              color="grey"
-              variant="h2"
-              textAlign="center"
-            >
-              Edit Your Blog
-            </Typography>
             <InputLabel sx={labelStyles}>Title</InputLabel>
             <TextField
               name="title"
               onChange={handleChange}
               value={inputs.title}
-              margin="auto"
+              margin="normal"
               variant="outlined"
             />
             <InputLabel sx={labelStyles}>Description</InputLabel>
             <TextField
               name="desc"
               onChange={handleChange}
-              value={inputs.desc}
-              margin="auto"
+              value={inputs.desc}  //change
+              margin="normal"
               variant="outlined"
               multiline
               rows={4}
